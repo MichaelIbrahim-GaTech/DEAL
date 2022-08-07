@@ -18,14 +18,15 @@ if __name__ == '__main__':
     eval_file = get_out_filename(sg.out_dir, model_file, prefix=sg.prefix)
 
     test_dataloaders = DataLoader(test_data, batch_size=sg.batch_size, collate_fn=model.collate_batch, shuffle=False, drop_last=False)
-    out_str = ''
-    index = 0
-    for batch in tqdm(test_dataloaders, total=len(test_dataloaders)):
-        pred_tags = model.predict_tags(batch, device=sg.cuda)
 
-        for pred_tag_inst in pred_tags:
-            out_str += '\n'.join(pred_tag_inst)
-            out_str += '\n\n\n'
-        index += 1
-    open(eval_file, 'wt').write(out_str)
+    index = 0
+    with open(eval_file, "w", encoding="utf-8") as file_object:
+        for batch in tqdm(test_dataloaders, total=len(test_dataloaders)):
+            pred_tags = model.predict_tags(batch, device=sg.cuda)
+            out_str = ''
+            for pred_tag_inst in pred_tags:
+                out_str += ','.join(pred_tag_inst)
+                out_str += '\n'
+            index += 1
+            file_object.write(out_str)
 
