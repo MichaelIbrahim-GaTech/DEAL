@@ -13,8 +13,8 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class CoNLLReader(Dataset):
     def __init__(self, max_instances=-1, max_length=50, target_vocab=None, pretrained_dir='', encoder_model='xlm-roberta-large'):
-        self._max_instances = max_instances
-        self._max_length = max_length
+        self._max_instances = -1#max_instances
+        self._max_length = -1#max_length
 
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_dir + encoder_model)
 
